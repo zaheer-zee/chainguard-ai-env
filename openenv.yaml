@@ -1,0 +1,8 @@
+name: "chainguard-ai-env"
+version: "1.0.0"
+description: "A real-world supply chain security environment where the agent must triage and fix CVEs in Docker containers and package dependencies."
+author: "AI Builder"
+entry_point: "env:ChainGuardEnv"
+dependencies:
+  - "pydantic"
+  - "pyyaml"
