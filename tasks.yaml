@@ -1,0 +1,37 @@
+easy:
+  id: "easy"
+  scan_report: >
+    Critical Vulnerability Found: CVE-2021-23337 in package `lodash` version 4.17.20.
+    Remediation: Upgrade `lodash` to version 4.17.21 or higher.
+  manifest_content: >
+    {
+      "name": "my-app",
+      "dependencies": {
+        "express": "^4.17.1",
+        "lodash": "4.17.20"
+      }
+    }
+
+medium:
+  id: "medium"
+  scan_report: >
+    High Vulnerability Found: CVE-2023-3817 in system library `openssl` via base image `alpine:3.16`.
+    Remediation: The vulnerability is fixed in `alpine:3.18`. Change the base image to secure the container.
+  manifest_content: >
+    FROM alpine:3.16
+    RUN apk update && apk add --no-cache curl openssl
+    COPY . /app
+    CMD ["./run.sh"]
+
+hard:
+  id: "hard"
+  scan_report: >
+    Moderate Vulnerability Found: CVE-2022-12345 in `generic-lib`.
+    Description: This vulnerability only affects the function `legacyAuth()` inside `generic-lib`.
+    Action Required: Remediate if used; ignore as false positive if `legacyAuth()` is NOT used in the codebase.
+  manifest_content: >
+    import { secureAuth } from 'generic-lib';
+    
+    function login(user) {
+      secureAuth(user);
+    }
