@@ -12,4 +12,4 @@ COPY . .
 EXPOSE 8000
 
 # Start Uvicorn to serve the API
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "8000"]
