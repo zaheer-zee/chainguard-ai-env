@@ -16,5 +16,9 @@ dependencies = [
     "pyyaml",
     "fastapi",
     "uvicorn",
-    "openai"
+    "openai",
+    "openenv-core>=0.2.0"
 ]
+
+[project.scripts]
+server = "app:main"
