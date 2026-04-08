@@ -3,6 +3,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from env import ChainGuardEnv
 from models import Action
+from typing import Optional
 
 app = FastAPI(title="ChainGuard AI OpenEnv")
 env = ChainGuardEnv()
@@ -19,9 +20,11 @@ def health_check():
     return {"status": "ok"}
 
 @app.post("/reset")
-def reset_env(req: ResetRequest):
+def reset_env(req: Optional[ResetRequest] = None):
+    # If the autograder sends an empty body, default to "easy"
+    task_id = req.task_id if req and hasattr(req, 'task_id') else "easy"
     try:
-        obs = env.reset(req.task_id)
+        obs = env.reset(task_id)
         return {"observation": obs.model_dump()}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
