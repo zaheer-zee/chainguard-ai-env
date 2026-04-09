@@ -6,3 +6,10 @@ entry_point: "env:ChainGuardEnv"
 dependencies:
   - "pydantic"
   - "pyyaml"
+tasks:
+  - id: "easy"
+    score: 0.2
+  - id: "medium"
+    score: 0.3
+  - id: "hard"
+    score: 0.5

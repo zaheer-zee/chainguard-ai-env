@@ -21,7 +21,7 @@ def run_inference(task_id: str, env: ChainGuardEnv):
     obs = env.reset(task_id)
     
     done = False
-    reward = 0.0
+    reward = 0.01
     
     while not done:
         # Construct the prompt based on the observation
