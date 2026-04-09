@@ -37,3 +37,6 @@ env/
 # IDEs
 .idea/
 .vscode/
+
+# Test files (local only, not for deployment)
+test_*.py
