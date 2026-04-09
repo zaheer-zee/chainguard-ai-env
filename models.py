@@ -11,10 +11,10 @@ class ActionType(str, Enum):
 
 class Action(BaseModel):
     """The action taken by the ChainGuard Agent."""
-    action_type: ActionType = Field(description="The type of action to take.")
+    action_type: ActionType = Field(ActionType.resolve, description="The type of action to take.")
     target: Optional[str] = Field(None, description="The target package, image, or CVE ID.")
     version: Optional[str] = Field(None, description="The target version to bump or change to.")
-    justification: str = Field(description="Reasoning for this action.")
+    justification: str = Field("", description="Reasoning for this action.")
 
 class Observation(BaseModel):
     """The observation the agent receives from the environment."""
