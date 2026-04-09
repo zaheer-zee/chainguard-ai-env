@@ -1,5 +1,6 @@
 easy:
   id: "easy"
+  score: 0.2
   scan_report: >
     Critical Vulnerability Found: CVE-2021-23337 in package `lodash` version 4.17.20.
     Remediation: Upgrade `lodash` to version 4.17.21 or higher.
@@ -14,6 +15,7 @@ easy:
 
 medium:
   id: "medium"
+  score: 0.3
   scan_report: >
     High Vulnerability Found: CVE-2023-3817 in system library `openssl` via base image `alpine:3.16`.
     Remediation: The vulnerability is fixed in `alpine:3.18`. Change the base image to secure the container.
@@ -25,6 +27,7 @@ medium:
 
 hard:
   id: "hard"
+  score: 0.5
   scan_report: >
     Moderate Vulnerability Found: CVE-2022-12345 in `generic-lib`.
     Description: This vulnerability only affects the function `legacyAuth()` inside `generic-lib`.
