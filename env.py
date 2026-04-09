@@ -46,6 +46,11 @@ class ChainGuardEnv:
             feedback=reward_obj.message
         )
         
+        if self.step_count >= 10:
+            self.is_done = True
+            obs.feedback += " (Max steps reached)"
+            return obs, 0.01, self.is_done, {"message": "Episode limit reached."}
+            
         if action.action_type == "query_cve":
             if action.target == "CVE-2022-12345":
                 obs.query_result = "NVD Database: CVE-2022-12345 strictly affects legacyAuth(). Verify implementation."
