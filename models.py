@@ -26,6 +26,6 @@ class Observation(BaseModel):
 
 class Reward(BaseModel):
     """Reward for the action."""
-    score: float = Field(0.0, description="The objective score between 0.0 and 1.0.")
+    score: float = Field(0.01, gt=0.0, lt=1.0, description="The objective score strictly between 0 and 1.")
     is_done: bool = Field(False, description="Whether the episode is finished.")
     message: str = Field("", description="Reasoning for the reward.")
