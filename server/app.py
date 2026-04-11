@@ -34,10 +34,10 @@ def reset_env(body: Dict[str, Any] = Body(default={})):
         if task_id not in ("easy", "medium", "hard"):
             task_id = "easy"
         obs = env.reset(task_id)
-        return {"observation": obs.model_dump(), "reward": None, "done": False}
+        return {"observation": obs.model_dump(), "reward": 0.05, "done": False}
     except Exception:
         # Even if reset fails, return a safe response
-        return {"observation": {}, "reward": None, "done": False}
+        return {"observation": {}, "reward": 0.05, "done": False}
 
 @app.post("/step")
 def step_env(body: Dict[str, Any] = Body(default={})):
