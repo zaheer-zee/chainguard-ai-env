@@ -5,10 +5,20 @@ from typing import List
 
 def sigmoid(x: float) -> float:
     """
-    Sigmoid function: always returns a value strictly between 0 and 1.
-    Mathematically impossible to return exactly 0.0 or 1.0 for any finite input.
+    Robust sigmoid function that ensures the output is strictly within (0, 1).
+    Handles potential overflow errors and avoids exactly 0.0 or 1.0.
     """
-    return 1.0 / (1.0 + math.exp(-x))
+    try:
+        if x >= 0:
+            z = math.exp(-x)
+            val = 1.0 / (1.0 + z)
+        else:
+            z = math.exp(x)
+            val = z / (1.0 + z)
+        # Final safety clamp to avoid exactly 0.0 or 1.0 due to precision
+        return max(0.0001, min(0.9999, val))
+    except OverflowError:
+        return 0.9999 if x > 0 else 0.0001
 
 
 def grade_easy(action: Action) -> Reward:
