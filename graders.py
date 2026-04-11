@@ -30,10 +30,10 @@ def grade_easy(action: Action) -> Reward:
             # Wrong version/package: sigmoid(-1.5) ≈ 0.182
             return Reward(score=sigmoid(-1.5), is_done=True, message="Incorrect package or version chosen.")
     elif action.action_type == ActionType.resolve:
-        # Gave up: sigmoid(-2.5) ≈ 0.076
-        return Reward(score=sigmoid(-2.5), is_done=True, message="Resolved without taking action.")
-    # Invalid action: sigmoid(-3.0) ≈ 0.047
-    return Reward(score=sigmoid(-3.0), is_done=False, message="Invalid action for this task.")
+        # Gave up: sigmoid(-2.0) ≈ 0.119
+        return Reward(score=sigmoid(-2.0), is_done=True, message="Resolved without taking action.")
+    # Invalid action: sigmoid(-2.8) ≈ 0.057
+    return Reward(score=sigmoid(-2.8), is_done=False, message="Invalid action for this task.")
 
 
 def grade_medium(action: Action) -> Reward:
@@ -47,8 +47,8 @@ def grade_medium(action: Action) -> Reward:
     elif action.action_type == ActionType.resolve:
         # Gave up: sigmoid(-2.5) ≈ 0.076
         return Reward(score=sigmoid(-2.5), is_done=True, message="Resolved without taking action.")
-    # Invalid action: sigmoid(-3.0) ≈ 0.047
-    return Reward(score=sigmoid(-3.0), is_done=False, message="Invalid action for this task.")
+    # Invalid action: sigmoid(-3.2) ≈ 0.039
+    return Reward(score=sigmoid(-3.2), is_done=False, message="Invalid action for this task.")
 
 
 def grade_hard(action: Action, history: List[Action]) -> Reward:
@@ -85,11 +85,11 @@ def grade_hard(action: Action, history: List[Action]) -> Reward:
         return Reward(score=sigmoid(-2.5), is_done=True, message="Unnecessary dependency update.")
 
     elif action.action_type == ActionType.resolve:
-        # Gave up: sigmoid(-2.5) ≈ 0.076
-        return Reward(score=sigmoid(-2.5), is_done=True, message="Resolved without taking appropriate action.")
+        # Gave up: sigmoid(-3.0) ≈ 0.047
+        return Reward(score=sigmoid(-3.0), is_done=True, message="Resolved without taking appropriate action.")
 
-    # Fallback: sigmoid(-3.0) ≈ 0.047
-    return Reward(score=sigmoid(-3.0), is_done=False, message="Action does not progress the hard task.")
+    # Fallback: sigmoid(-3.5) ≈ 0.029
+    return Reward(score=sigmoid(-3.5), is_done=False, message="Action does not progress the hard task.")
 
 
 def grade_task(task_id: str, action: Action, history: List[Action]) -> Reward:
@@ -99,5 +99,5 @@ def grade_task(task_id: str, action: Action, history: List[Action]) -> Reward:
         return grade_medium(action)
     elif task_id == "hard":
         return grade_hard(action, history)
-    # Unknown task: sigmoid(-3.0) ≈ 0.047
-    return Reward(score=sigmoid(-3.0), is_done=True, message="Unknown task.")
+    # Unknown task: sigmoid(-4.0) ≈ 0.018
+    return Reward(score=sigmoid(-4.0), is_done=True, message="Unknown task.")

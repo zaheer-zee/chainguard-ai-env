@@ -8,10 +8,13 @@ from models import Action
 api_key = os.environ.get("OPENAI_API_KEY", "dummy")
 base_url = os.environ.get("API_BASE_URL", "https://api.openai.com/v1")
 model_name = os.environ.get("MODEL_NAME", "gpt-3.5-turbo")
-hf_token = os.environ.get("HF_TOKEN", "")
+hf_token = os.environ.get("HF_TOKEN")
+
+if not hf_token:
+    raise ValueError("HF_TOKEN environment variable is required but not found.")
 
 # If HF_TOKEN is provided and we aren't explicitly overriding the API key, apply it.
-if hf_token and api_key == "dummy":
+if api_key == "dummy":
     api_key = hf_token
 
 client = OpenAI(api_key=api_key, base_url=base_url)
@@ -21,9 +24,11 @@ def run_inference(task_id: str, env: ChainGuardEnv):
     obs = env.reset(task_id)
     
     done = False
-    reward = 0.01
+    rewards = []
+    step_count = 0
     
     while not done:
+        step_count += 1
         # Construct the prompt based on the observation
         prompt = (
             f"You are ChainGuard AI. Your task is to remediate vulnerabilities.\n"
@@ -55,12 +60,21 @@ def run_inference(task_id: str, env: ChainGuardEnv):
 
         # Step environment
         obs, reward, done, info = env.step(action)
+        rewards.append(reward)
         
-        # Log Step
-        print(f"[STEP] Action: {action.model_dump_json()} | ObsFeedback: {obs.feedback} | Reward: {reward} | Done: {done}")
+        # Log Step according to OpenEnv specification
+        print(f"[STEP] step={step_count} action={action.action_type} reward={reward:.2f} done={str(done).lower()} error=null")
         
-    print(f"[END] Task: {task_id} | Final Score: {reward}")
-    return reward
+    # Final score normalization as per contex.md requirements, but strictly (0, 1)
+    # Using average reward as the score for the task
+    final_score = sum(rewards) / len(rewards) if rewards else 0.01
+    final_score = max(0.01, min(0.99, final_score))
+    
+    rewards_str = ",".join(f"{r:.2f}" for r in rewards)
+    success_str = str(final_score > 0.5).lower()
+    
+    print(f"[END] success={success_str} steps={step_count} score={final_score:.3f} rewards={rewards_str}")
+    return final_score
 
 if __name__ == "__main__":
     environment = ChainGuardEnv()

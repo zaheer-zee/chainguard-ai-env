@@ -72,11 +72,13 @@ def step_env(body: Dict[str, Any] = Body(default={})):
             env.reset("easy")
             obs, reward, is_done, info = env.step(action)
 
-        safe_reward = _safe_score(reward)
+        safe_reward = round(_safe_score(reward), 2)
+        # Ensure it's still strictly within (0, 1) after rounding
+        safe_reward = max(0.01, min(0.99, safe_reward))
 
         return {
             "observation": obs.model_dump(),
-            "reward": safe_reward,
+            "reward": float(f"{safe_reward:.2f}"),
             "done": is_done,
             "info": info
         }
@@ -99,7 +101,7 @@ def state_env():
 
 def main():
     import uvicorn
-    uvicorn.run("server.app:app", host="0.0.0.0", port=8000)
+    uvicorn.run("server.app:app", host="0.0.0.0", port=7860)
 
 if __name__ == "__main__":
     main()

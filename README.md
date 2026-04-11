@@ -4,7 +4,7 @@ emoji: 🛡️
 colorFrom: blue
 colorTo: green
 sdk: docker
-app_port: 8000
+app_port: 7860
 tags:
   - openenv
 ---
@@ -66,11 +66,11 @@ This script complies strictly with standard `[START]`, `[STEP]`, and `[END]` std
 
 ## 🐳 Container & Deployment
 
-The application is built for seamless cloud deployment, particularly to Hugging Face Spaces. The repository includes a `Dockerfile` that packages the FastAPI server running on port `8000`, satisfying the OpenEnv deployment requirements.
+The application is built for seamless cloud deployment, particularly to Hugging Face Spaces. The repository includes a `Dockerfile` that packages the FastAPI server running on port `7860`, satisfying the OpenEnv deployment requirements.
 
 ```bash
 docker build -t chainguard .
-docker run -p 8000:8000 chainguard
+docker run -p 7860:7860 chainguard
 ```
 
 Once running, the environment natively handles the stateful `/reset` and `/step` HTTP requests required for remote AI agent evaluation.
